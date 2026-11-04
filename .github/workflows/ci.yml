@@ -25,14 +25,23 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-extras --dev
 
+      - name: Check code formatting (Black)
+        run: uv run black --check .
+
       - name: Lint code (Ruff)
-        run: uv run ruff check ./src/
+        run: uv run ruff check src tests
 
-      - name: Static type checking (ty)
-        run: uv run task type
+      - name: Check PEP 8 compliance (Ruff)
+        run: uv run ruff check --select E,W .
 
-      - name: Security audit (Bandit)
-        run: uv run bandit -r ./src/
+      - name: Check PEP 257 docstring compliance (Ruff)
+        run: uv run ruff check --select D .
 
-      - name: Run Test Suite and Coverage
-        run: uv run task coverage
+      - name: Static type checking (Mypy)
+        run: uv run mypy src tests
+
+      - name: Static type checking (Pyright)
+        run: uv run pyright src tests
+
+      - name: Run Tests with Coverage Report
+        run: uv run python -m pytest --cov=tp_final_integrador_is2 --cov-report=term-missing
