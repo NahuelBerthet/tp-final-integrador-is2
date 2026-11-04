@@ -45,6 +45,15 @@ tp-final-integrador-is2/
 ├── singletonproxyobserver.py   ← Punto de entrada del SERVIDOR
 ├── singletonclient.py          ← Punto de entrada del CLIENTE get/set/list
 ├── observerclient.py           ← Punto de entrada del CLIENTE observer
+├── data/
+│   ├── input/
+│   │   ├── input_get.json      ← Registros para consultar
+│   │   ├── input_set.json      ← Registros para crear o modificar
+│   │   └── input_list.json     ← Registros para listar
+│   └── output/
+│       |── respuesta_get_*.json    ← Respuesta de consulta get
+│       |── respuesta_set_*.json    ← Respuesta de consulta set
+│       |── respuesta_list_*.json    ← Respuesta de consulta list
 ├── src/
 │   └── tp_final_integrador_is2/
 │       ├── database.py         ← Patrón Singleton (CorporateData + CorporateLog)
@@ -54,13 +63,16 @@ tp-final-integrador-is2/
 │       ├── singletonclient.py          ← Lógica del cliente
 │       └── observerclient.py           ← Lógica del observer
 └── tests/
-    ├── test_acceptance.py      ← Tests de aceptación (camino feliz)
-    ├── test_singletonclient.py
-    ├── test_observerclient.py
-    ├── test_singletonproxyobserver.py
-    ├── test_database.py
-    ├── test_observer.py
-    └── test_proxy.py
+|    ├── test_acceptance.py      ← Tests de aceptación (camino feliz)
+|    ├── test_singletonclient.py
+|    ├── test_observerclient.py
+|    ├── test_singletonproxyobserver.py
+|    ├── test_database.py
+|    ├── test_observer.py
+|    └── test_proxy.py
+|── README.md         ← Naturaleza del problema 
+|── CHANGELOG.md      ← Memoria de los cambios realizados
+|── CONTEXT.md        ← Promps y respuestas de la IA
 ```
 
 ---
