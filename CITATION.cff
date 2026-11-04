@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "Trabajo final de ingenieria de software 2"
+title: "TP_Final_Integrador_IS2"
+abstract: "Trabajo final de ingenieria de software 2"
+authors:
+  - name: "Nahuel Berthet"
+version: 0.1.0
+license: "MIT"
+repository-code: "https://github.com/NahuelBerthet/tp-final-integrador-is2"
+keywords:
+  - "python"

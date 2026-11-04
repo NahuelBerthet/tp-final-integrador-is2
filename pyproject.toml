@@ -1,0 +1,184 @@
+
+[project]
+name = "tp_final_integrador_is2"
+version = "0.1.0"
+description = "Trabajo final de ingenieria de software 2"
+authors = [{ name = "Nahuel Berthet", email = "nahuelberthet3@gmail.com" }]
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["python"]
+requires-python = ">=3.13,<4"
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Typing :: Typed",
+]
+dependencies = [
+    "boto3>=1.43.123",
+    "botocore>=1.43.123",
+    "pdoc>=16.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "ty>=0.0.65",
+    "pytest>=9.1.1",
+    "pytest-timeout>=2.4.0",
+    "pytest-xdist>=3.8.0",
+    "pytest-randomly>=4.1.0",
+    "hypothesis>=6.164.0",
+    "coverage>=7.15.2",
+    "ruff>=0.16.1",
+    "taskipy>=1.14.1",
+    "zensical>=0.0.52",
+    "pre-commit>=4.6.1",
+    "python-semantic-release>=10.6.1",
+    "pytest-cov>=7.1.0",
+    "black>=26.10.1",
+    "mypy>=2.4.1",
+    "pyright>=1.1.414",
+    "bandit>=1.9.4",
+    "boto3-stubs>=1.43.123",
+    "flake8>=7.5.0",
+    "pycodestyle>=2.15.0",
+    "pydocstyle>=6.3.0",
+    "pdoc>=16.0.0",
+]
+
+[project.urls]
+homepage = "https://github.com/NahuelBerthet/tp-final-integrador-is2"
+repository = "https://github.com/NahuelBerthet/tp-final-integrador-is2.git"
+documentation = "https://NahuelBerthet.github.io/tp-final-integrador-is2"
+issues = "https://github.com/NahuelBerthet/tp-final-integrador-is2/issues"
+
+[build-system]
+requires = ["uv_build>=0.12.1,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv]
+package = true
+
+[tool.taskipy.tasks]
+format = { cmd = "ruff format ./src/", help = "Format code using ruff" }
+lint = { cmd = "ruff check --fix ./src/", help = "Lint code using ruff" }
+type = { cmd = "ty check", help = "Typecheck code using ty" }
+docs = { cmd = "zensical build", help = "Build documentation" }
+serve = { cmd = "zensical serve", help = "Serve documentation" }
+release = { cmd = "uv run python-semantic-release version", help = "Create a release (version bump + changelog + tag)" }
+tests = { cmd = "pytest --verbose --color=yes tests", help = "Run all tests using pytest" }
+coverage = { cmd = "coverage run -m pytest tests && coverage report", help = "Generate coverage report" }
+run = { cmd = "uv run ./src/tp_final_integrador_is2/tp_final_integrador_is2.py", help = "Run main application" }
+upgrade = { cmd = "uv sync --upgrade", help = "Upgrade all dependencies to latest versions."}
+docs-gen = { cmd = "pdoc --html --output-dir docs src/tp_final_integrador_is2", help = "Generate HTML documentation using pdoc" }
+
+[tool.ruff]
+line-length = 100
+indent-width = 4
+target-version = "py313"
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    ".pytest_cache",
+    ".ruff_cache",
+    "build",
+    "dist",
+    "*.egg-info",
+    "htmlcov",
+    ".cache",
+]
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+pydocstyle.convention = "google"
+fixable = ["ALL"]
+select = ["ALL"]
+ignore = [
+    "FA102",    # Flake8-future-annotations
+    "F401",     # Disable fix for unused imports
+    "B904",     # Allow raising exceptions without from e
+    "PLR0913",  # too many arguments
+    "CPY",      # Flake8-copyright
+    "T201",     # Debugging print statements
+    "ERA",      # Eradicate – detects commented-out code
+    "BLE001",   # Catch-all exceptions
+    "D100",     # missing docstring in public module
+    "D105",     # undocumented magic method
+    "D107",     # undocumented public init
+    "D203",     # incorrect-blank-line-before-class
+    "D205",     # line-between-summary-and-description
+    "D212",     # multi-line-summary-first-line
+    "D400",     # missing-trailing-period
+    "D407",     # missing-dashed-underline-after-section
+    "S311",     # rand-usage
+    "EM102",    # f-string-exception
+    "TRY003",   # long-exception-messages
+    "COM812",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "PLC0415",  # Import outside top-level (tests often need scoped imports)
+    "PLR2004",  # Magic values
+    "F841",     # Unused variable (fixtures, etc.)
+    "PT001",    # Use @pytest.fixture() over @pytest.fixture
+    "S101",     # Use of assert detected
+    "D101",     # Missing docstring in public class
+    "D103",     # Missing docstring in public function
+    "E741",     # Ambiguous variable name 'l', 'O', or 'I'
+]
+
+
+[tool.ty]
+terminal.output-format = "full"
+
+[tool.ty.environment]
+python = ".venv"
+
+[tool.ty.src]
+include = ["src/**/*.py"]
+
+[tool.coverage.report]
+skip_empty = true
+show_missing = true
+fail_under = 85
+exclude_also = [
+    "if __name__ == .__main__.:",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+omit = ["_*.py", "__*.py"]
+
+[tool.pytest.ini_options]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+testpaths = ["tests"]
+pythonpath = ["src"]
+timeout = 60
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+commit_author = "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+commit_parser = "angular"
+tag_format = "v{version}"
+branch = "main"
+
+[tool.mypy]
+explicit_package_bases = true
+mypy_path = "src"
+
+[tool.bandit]
+exclude_dirs = []
+
+[tool.black]
+line-length = 88
